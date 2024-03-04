@@ -16,9 +16,7 @@ public class Wordguess {
         words.add("zipcode");
         words.add("saveme");
 
-        System.out.println(randomNumGen());
-        System.out.println(getWordbyIndex(randomNumGen()));
-        System.out.println(getLengthofWord(getWordbyIndex(randomNumGen())));
+        startGame();
 
     }
     public static int randomNumGen(){
@@ -40,11 +38,32 @@ public class Wordguess {
 
     public static void startGame(){
         String wordToGuess = getWordbyIndex(randomNumGen());
-        int maxNumOfguesses = 3;
+        int maxNumOfguesses = wordToGuess.length();
         int userGuesses = 0;
+        char[] wordArray = wordToGuess.toCharArray();
+        char[] userGuess = new char[wordToGuess.length()];
 
-        //Scanner scanner = new Scanner(System.in);
-        //System.out.println("Type guess if you want to guess the word, otherwise, enter a letter: ");
+        //
+
+        Scanner scanner = new Scanner(System.in);
+        while(userGuesses < maxNumOfguesses){
+            System.out.println("Type guess to guess the word or type a letter: ");
+            String guess = scanner.nextLine();
+
+            if(guess.equals("guess")){
+                if(guess.equals(wordToGuess)){
+                    System.out.println("You have guessed correctly");
+                    break;
+                }else{
+                    System.out.println("Incorrect guess");
+                    userGuesses++;
+                }
+            }
+
+        }
+        System.out.println("Game Over");
+
+
 
 
     }
