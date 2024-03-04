@@ -41,30 +41,56 @@ public class Wordguess {
         int maxNumOfguesses = wordToGuess.length();
         int userGuesses = 0;
         char[] wordArray = wordToGuess.toCharArray();
-        char[] userGuess = new char[wordToGuess.length()];
+        char[] userGuess = new char[wordToGuess.length()]; // Array to keep track of correct guesses
 
-        //
+        // Initialize userGuess array with underscores to represent unguessed letters
+        for(int i = 0; i < userGuess.length; i++) {
+            userGuess[i] = '_';
+        }
 
         Scanner scanner = new Scanner(System.in);
         while(userGuesses < maxNumOfguesses){
-            System.out.println("Type guess to guess the word or type a letter: ");
-            String guess = scanner.nextLine();
+            System.out.println("Type 'guess' to guess the word or type a letter: ");
+            String input = scanner.nextLine();
 
-            if(guess.equals("guess")){
-                if(guess.equals(wordToGuess)){
-                    System.out.println("You have guessed correctly");
-                    break;
+            // Check if the user wants to guess the whole word
+            if(input.equalsIgnoreCase("guess")){
+                System.out.println("Enter your guess for the word: ");
+                String wordGuess = scanner.nextLine();
+                if(wordGuess.equalsIgnoreCase(wordToGuess)) {
+                    System.out.println("You have guessed correctly!");
+                    return; // Exit the function if the word is guessed correctly
                 }else{
-                    System.out.println("Incorrect guess");
+                    System.out.println("Incorrect guess.");
                     userGuesses++;
                 }
+            } else if (input.length() == 1) { // User is guessing one letter
+                char charGuess = input.charAt(0);
+                boolean correctGuess = false;
+
+                // Check each letter of the word
+                for(int i = 0; i < wordArray.length; i++) {
+                    if(wordArray[i] == charGuess) {
+                        userGuess[i] = charGuess; // Reveal the letter in userGuess array
+                        correctGuess = true;
+                    }
+                }
+
+                if(correctGuess) {
+                    System.out.println("Correct! " + new String(userGuess));
+                    // Check if all letters have been guessed
+                    if(new String(userGuess).equalsIgnoreCase(wordToGuess)) {
+                        System.out.println("All letters guessed!");
+                        break;
+                    }
+                } else {
+                    System.out.println("Incorrect guess, try again.");
+                    userGuesses++;
+                }
+            } else {
+                System.out.println("Invalid input, please try again.");
             }
-
         }
-        System.out.println("Game Over");
-
-
-
-
+        System.out.println("Game Over. The word was: " + wordToGuess);
     }
 }
